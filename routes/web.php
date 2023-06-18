@@ -30,6 +30,7 @@ Route::get('/tap-phim', [IndexController::class, 'episode'])->name('tap-phim');
 Route::get('/year/{year}', [IndexController::class, 'year']);
 Route::get('/tags/{tags}', [IndexController::class, 'tags']);
 Route::get('/tim-kiem', [IndexController::class, 'search'])->name('search');
+Route::get('/loc-phim', [IndexController::class, 'loc_phim'])->name('filter');
 
 
 
@@ -47,6 +48,9 @@ Route::resource('country', CountryController::class);
 
 //tu phim chon ra so tap
 Route::get('select-movie', [EpisodeController::class,'select_movie'])->name('select-movie');
+
+//them tap phim tu trang phim
+Route::get('add-episode/{id}', [EpisodeController::class,'add_episode'])->name('add-episode');
 
 
 Route::get('/update-movie-year', [MovieController::class,'update_movie_year']);

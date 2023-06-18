@@ -9,7 +9,7 @@
                      Thêm Quốc Gia
              </a>
 <div class="container table-responsive py-5">
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover" id="tableMovie">
       <thead class="thead-dark">
         <tr>
           <th scope="col">#</th>

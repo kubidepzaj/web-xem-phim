@@ -158,10 +158,15 @@ img:hover {
 .main-navigation .navbar-nav > li > a i {
     font-size: 12px;
 }
-.main-navigation .navbar-nav > li > a:hover,
-.main-navigation .navbar-nav > li > a:focus {
-    color: #fdfdfd;
+.main-navigation .navbar-nav > li > a:hover
+ {
+    color: #ffed4d;
     background: #000;
+}
+.main-navigation .navbar-nav > li > a:focus
+{
+    color: #fff;
+    background: #234;
 }
 .main-navigation .navbar-nav > .active > a,
 .main-navigation .navbar-nav > .active > a:hover,
@@ -5572,6 +5577,62 @@ ul.list-info-group {
     width: 100%;
     height: 500px;
 }
+/* style cho loc phim */
+.form-filter .filter-item {
+    float: left;
+    color: #959595;
+    font-size: 14px;
+    margin: 0 5px 0 0;
+}
+.form-filter .filter-item .form-control {
+    /* width: 140px; */
+    margin: 0 5px 0 0;
+    padding: 3px;
+    font-size: 14px;
+    height: 32px;
+    background: #12171b;
+    box-shadow: none;
+    border: none;
+    color: #fafafa;
+    outline: none;
+    border-radius: 0;
+    line-height: 1.42857143;
+}
+.form-filter .btn {
+    padding: 5.5px 8px;
+    font-size: 14px;
+    /* font-weight: bold; */
+    background: #666;
+    color: #fff;
+    border: none;
+    outline: none;
+    border-radius: 0;
+}
+.filter-container {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease;
+}
+
+.filter-container.show {
+    max-height: 500px;
+}
+
+/*  thanh tìm kiếm layout */
+.input-with-button {
+    display: flex;
+  }
+
+  .input-with-button input {
+    flex: 1;
+    border-radius: 4px 0 0 4px;
+  }
+
+  .input-with-button .search-button {
+    border-radius: 0 4px 4px 0;
+    margin-left: -1px;
+  }
+
 @-webkit-keyframes gogoloader {
     0% {
         -webkit-transform: scale(0);

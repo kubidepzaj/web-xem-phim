@@ -89,7 +89,7 @@ class MovieController extends Controller
 
     public function index()
     {
-        $list = Movie::all();
+        $list = Movie::with('category','movie_genre','country','genre')->withCount('episode')->orderBy('id','DESC')->get();
 
         // them phim vao file json cho search
         $path = public_path()."/json_file/";

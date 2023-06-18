@@ -31,11 +31,15 @@
                               <img class="movie-thumb" src="{{asset('uploads/movies/'.$movie->image)}}" alt="{{$movie->title}}" alt="GÓA PHỤ ĐEN">
                               <div class="bwa-content">
                                  <div class="loader"></div>
-                                    @if (isset($episode_first->episode))
-                                       <a href="{{url('xem-phim/'.$movie->slug.'/tap-'.$episode_first->episode)}}" class="bwac-btn">
-                                       @else
-                                       <a href="#!" class="bwac-btn">
-                                    @endif
+                                 @empty($episode_first->episode)
+                                    <a href="#!" class="bwac-btn" onclick="showCustomAlert()">
+                                          <i class="fa fa-play"></i>
+                                    </a>
+                                 @else
+                                    <a href="{{ url('xem-phim/'.$movie->slug.'/tap-'.$episode_first->episode) }}" class="bwac-btn">
+                                          <i class="fa fa-play"></i>
+                                    </a>
+                                 @endempty
                                  <i class="fa fa-play"></i>
                                  </a>
                               </div>
@@ -175,7 +179,7 @@
                         @foreach ($related as $key =>$related_movie)
                         <article class="thumb grid-item post-38498">
                            <div class="halim-item">
-                              <a class="halim-thumb" href="chitiet.php" title="{{$related_movie->title}}">
+                              <a class="halim-thumb" href="{{url('phim/'.$related_movie->slug)}}" title="{{$related_movie->title}}">
                                  <figure><img class="lazy img-responsive" src="{{asset('uploads/movies/'.$related_movie->image)}}" alt="{{$related_movie->title}}" title="{{$related_movie->title}}"></figure>
                                  <span class="status">
                                     @if ($related_movie ->quality == 0)
@@ -186,7 +190,13 @@
                                        Cam
                                     @endif
                                  </span>
-                                 <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span>
+                                 <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
+                                    @if ($related_movie ->subtitle == 0)
+                                    VietSub
+                                    @elseif($related_movie ->subtitle == 1)
+                                    Thuyết Minh
+                                    @endif
+                                 </span>
                                  <div class="icon_overlay"></div>
                                  <div class="halim-post-title-box">
                                     <div class="halim-post-title ">

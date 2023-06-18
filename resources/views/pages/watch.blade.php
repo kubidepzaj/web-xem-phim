@@ -71,26 +71,29 @@
                   </div>
                   <div id="halim-list-server">
                      <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active server-1"><a href="#server-0" aria-controls="server-0" role="tab" data-toggle="tab"><i class="hl-server"></i> Vietsub</a></li>
+                        <li role="presentation" class="active server-1"><a href="#server-0" aria-controls="server-0" role="tab" data-toggle="tab"></i>Chọn tập phim</a></li>
                      </ul>
                      <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active server-1" id="server-0">
                            <div class="halim-server">
                               <ul class="halim-list-eps">
-                                 @foreach($movie->episode as $key =>$sotap)
-                                    <a href="{{url('xem-phim/'.$movie->slug.'/tap-'.$sotap->episode)}}">
+                                 {{-- @foreach($movie->episode as $key =>$sotap) --}}
+                                 @foreach ($episode_sapxep as $item => $sortByEpisode)
+
+                                    <a href="{{url('xem-phim/'.$movie->slug.'/tap-'.$sortByEpisode->episode)}}">
                                        <li class="halim-episode">
-                                             <span class="halim-btn halim-btn-2 {{$tap_phim==$sotap->episode ? 'active' : ''}} halim-info-1-1 box-shadow"
+                                             <span class="halim-btn halim-btn-2 {{$tap_phim==$sortByEpisode->episode ? 'active' : ''}} halim-info-1-1 box-shadow"
                                                 data-post-id="37976"
                                                 data-server="1"
                                                 data-episode="1"
                                                 data-position="first"
                                                 data-embed="0"
-                                                data-title="Xem phim {{$movie->title}} - Tập {{$sotap->episode}}  - vietsub + Thuyết Minh"
-                                                data-h1="{{$movie->title}} - tập {{$sotap->episode}}">{{$sotap->episode}}
+                                                data-title="Xem phim {{$movie->title}} - Tập {{$sortByEpisode->episode}}  - vietsub + Thuyết Minh"
+                                                data-h1="{{$movie->title}} - tập {{$sortByEpisode->episode}}">Tập {{$sortByEpisode->episode}}
                                              </span>
                                        </li>
                                     </a>
+
                                  @endforeach
                               </ul>
                               <div class="clearfix"></div>
@@ -112,7 +115,7 @@
                      @foreach ($related as $key =>$related_movie)
                      <article class="thumb grid-item post-38498">
                         <div class="halim-item">
-                           <a class="halim-thumb" href="chitiet.php" title="{{$related_movie->title}}">
+                           <a class="halim-thumb" href="{{url('phim/'.$related_movie->slug)}}" title="{{$related_movie->title}}">
                               <figure><img class="lazy img-responsive" src="{{asset('uploads/movies/'.$related_movie->image)}}" alt="{{$related_movie->title}}" title="{{$related_movie->title}}"></figure>
                               <span class="status">
                                  @if ($related_movie ->quality == 0)
@@ -123,7 +126,13 @@
                                     Cam
                                  @endif
                               </span>
-                              <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>Vietsub</span>
+                              <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
+                                 @if ($related_movie ->subtitle == 0)
+                                    VietSub
+                                    @elseif($related_movie ->subtitle == 1)
+                                    Thuyết Minh
+                                    @endif
+                              </span>
                               <div class="icon_overlay"></div>
                               <div class="halim-post-title-box">
                                  <div class="halim-post-title ">

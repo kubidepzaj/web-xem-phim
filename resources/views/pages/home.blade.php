@@ -94,7 +94,24 @@
                         <div class="halim-item">
                            <a class="halim-thumb" href="{{route('movie',$movie_home->slug)}}">
                               <figure><img class="lazy img-responsive" src="{{asset('uploads/movies/'.$movie_home->image)}}"></figure>
-                              <span class="status">TẬP 15</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
+                              <span class="status">
+                                 @if ($movie_home ->episode_count == $movie_home->number_episode)
+                                    @if ($movie_home ->episode_count == 1)
+                                       Hoàn Thành
+                                       @else
+                                       Full ({{$movie_home ->episode_count}}/{{$movie_home->number_episode}}) Tập
+                                    @endif
+
+                                 @elseif($movie_home ->episode_count == 0 && $movie_home->number_episode == 1)
+                                    Đang Cập Nhật
+                                 @elseif($movie_home ->episode_count == 0 && $movie_home->number_episode != 1)
+                                    Coming soon
+                                 @else
+                                     Tập {{$movie_home ->episode[0]->episode}}
+                                 @endif
+                              </span>
+                              <span class="episode">
+                                 <i class="fa fa-play" aria-hidden="true"></i>
                                  @if ($movie_home ->subtitle == 0)
                                     VietSub
                                  @elseif($movie_home ->subtitle == 1)

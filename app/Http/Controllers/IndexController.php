@@ -35,7 +35,14 @@ class IndexController extends Controller
         $category = Category::orderBy('position','ASC')->where('status', 1)->get();
         $genre = Genre::orderBy('id','DESC') ->get();
         $country = Country::orderBy('id','DESC') ->get();
-        $category_home = Category::with('movie')->orderBy('id','DESC')->where('status',1)->get();
+        // $category_home = Category::with(['movie'=> function($q){$q->withCount('episode');}])->orderBy('id','DESC')->where('status',1)->get();
+        // return response()->json($episode_new);
+        $category_home = Category::with(['movie' => function ($q) {
+            $q->withCount('episode')->with(['episode' => function ($q) {
+                $q->orderBy('episode', 'DESC')->get();
+            }]);
+        }])->orderBy('id', 'DESC')->where('status', 1)->get();
+
         return view('pages.home', compact('category','genre','country','category_home','hot_movie'));
     }
 
@@ -44,7 +51,10 @@ class IndexController extends Controller
         $genre = Genre::orderBy('id','DESC') ->get();
         $country = Country::orderBy('id','DESC') ->get();
         $category_slug = Category::where('slug',$slug) ->first();
-        $movie = Movie::where('category_id',$category_slug->id)->orderBy('update_movie_day','DESC')->paginate(40);
+        $movie = Movie::withCount('episode')->with(['episode' => function($q) {
+            $q->orderBy('episode','DESC')->get();
+        }])->where('category_id',$category_slug->id)->orderBy('update_movie_day','DESC')->paginate(40);
+        // return response()->json($movie);
         return view('pages.category', compact('category','genre','country','category_slug','movie'));
     }
 
@@ -53,7 +63,9 @@ class IndexController extends Controller
         $genre = Genre::orderBy('id','DESC') ->get();
         $country = Country::orderBy('id','DESC') ->get();
         $year = $year;
-        $movie = Movie::where('year',$year)->orderBy('update_movie_day','DESC')->paginate(40);
+        $movie = Movie::withCount('episode')->with(['episode' => function($q) {
+            $q->orderBy('episode','DESC')->get();
+        }])->where('year',$year)->orderBy('update_movie_day','DESC')->paginate(40);
         return view('pages.year', compact('category','genre','country','year','movie'));
     }
 
@@ -62,7 +74,9 @@ class IndexController extends Controller
         $genre = Genre::orderBy('id','DESC') ->get();
         $country = Country::orderBy('id','DESC') ->get();
         $tags = $tags;
-        $movie = Movie::where('tags','LIKE','%'.$tags.'%')->orderBy('update_movie_day','DESC')->paginate(40);
+        $movie = Movie::withCount('episode')->with(['episode' => function($q) {
+            $q->orderBy('episode','DESC')->get();
+        }])->where('tags','LIKE','%'.$tags.'%')->orderBy('update_movie_day','DESC')->paginate(40);
         return view('pages.tag', compact('category','genre','country','tags','movie'));
     }
 
@@ -78,7 +92,9 @@ class IndexController extends Controller
             $many_genre[] = $movi->movie_id;
         }
         // return response()->json($many_genre);
-        $movie = Movie::whereIn('id',$many_genre)->orderBy('update_movie_day','DESC')->paginate(40);
+        $movie = Movie::withCount('episode')->with(['episode' => function($q) {
+            $q->orderBy('episode','DESC')->get();
+        }])->whereIn('id',$many_genre)->orderBy('update_movie_day','DESC')->paginate(40);
         return view('pages.genre', compact('category','genre','country','genre_slug','movie'));
     }
 
@@ -87,7 +103,9 @@ class IndexController extends Controller
         $genre = Genre::orderBy('id','DESC') ->get();
         $country = Country::orderBy('id','DESC') ->get();
         $country_slug = Country::where('slug',$slug) ->first();
-        $movie = Movie::where('country_id',$country_slug->id)->orderBy('update_movie_day','DESC')->paginate(40);
+        $movie = Movie::withCount('episode')->with(['episode' => function($q) {
+            $q->orderBy('episode','DESC')->get();
+        }])->where('country_id',$country_slug->id)->orderBy('update_movie_day','DESC')->paginate(40);
         return view('pages.country', compact('category','genre','country','country_slug','movie'));    }
 
     public function movie($slug){
@@ -114,14 +132,15 @@ class IndexController extends Controller
 
         if (isset($tap)) {
             $tap_phim = $tap;
-            $tap_phim = substr($tap, 4,1);
-            $episode = Episode::where('movie_id',$movie->id)->where('episode',$tap_phim)->first();
+            $tap_phim = substr($tap, 4,20);
+            $episode = Episode::where('movie_id', $movie->id)->where('episode', $tap_phim)->first();
+            $episode_sapxep = Episode::where('movie_id',$movie->id)->orderBy('episode','ASC')->get();
         } else {
             $tap_phim = 1;
         }
 
-        // return response()->json($movie->episode);
-        return view('pages.watch', compact('category','genre','country','movie','related','episode','tap_phim'));
+        // dd($episode);
+        return view('pages.watch', compact('category','genre','country','movie','related','episode','tap_phim','episode_sapxep'));
     }
 
     public function episode(){
@@ -131,5 +150,45 @@ class IndexController extends Controller
         $movie= Movie::with('category','genre','country','movie_genre','episode')->where('slug',$slug) ->where('status',1)->first();
         $related= Movie::with('category','genre','country')->where('category_id',$movie->category->id) ->orderBy(DB::raw('RAND()'))->whereNotIn('slug',[$slug])->get();
         return view('pages.episode',compact('category','genre','country','movie','related'));
+    }
+    public function loc_phim(){
+        $order_filter = $_GET['order'];
+        $genre_filter = $_GET['genre'];
+        $country_filter = $_GET['country'];
+        $year_filter = $_GET['year'];
+
+        // $movie= Movie::with('category','genre','country','movie_genre','episode')->where('slug',$slug) ->where('status',1)->first();
+
+        if ($order_filter==''&& $genre_filter==''&& $country_filter==''&& $year_filter=='') {
+            return redirect()->back();
+        }
+        else {
+            $category = Category::orderBy('position','ASC') ->where('status', 1)->get();
+            $genre = Genre::orderBy('id','DESC') ->get();
+            $country = Country::orderBy('id','DESC') ->get();
+
+
+            $movie = Movie::withCount('episode')->with(['episode' => function($q) {
+                $q->orderBy('episode','DESC')->get();
+            }]);
+            
+            if ($genre_filter) {
+                $movie_genre = Movie_Genre::where('genre_id', $genre_filter)->get();
+                $many_genre = [];
+                    foreach($movie_genre as $key => $movi) {
+                        $many_genre[] = $movi->movie_id;
+                    }
+                $movie = $movie->whereIn('id',$many_genre);
+            }elseif($country_filter) {
+                $movie = $movie->where('country_id','=',$country_filter);
+            }elseif($year_filter) {
+                $movie = $movie->where('year','=',$year_filter);
+            }elseif($order_filter == 'name_a_z') {
+                $movie = $movie->orderBy('title','ASC');
+            }
+            $movie = $movie->orderBy('update_movie_day','DESC')->paginate(40);
+
+            return view('pages.filter-movie', compact('category','genre','country','movie'));
+        }
     }
 }

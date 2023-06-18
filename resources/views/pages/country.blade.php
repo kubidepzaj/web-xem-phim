@@ -24,7 +24,23 @@
                         <div class="halim-item">
                            <a class="halim-thumb" href="{{route('movie',$country_movie->slug)}}" title="VŨNG LẦY PHẦN 1">
                               <figure><img class="lazy img-responsive" src="{{asset('uploads/movies/'.$country_movie->image)}}" alt="{{$country_movie->title}}" title="{{$country_movie->title}}"></figure>
-                              <span class="status">5/5</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
+                              <span class="status">
+                                 @if ($country_movie ->episode_count == $country_movie->number_episode)
+                                    @if ($country_movie ->episode_count == 1)
+                                       Hoàn Thành
+                                       @else
+                                       Full ({{$country_movie ->episode_count}}/{{$country_movie->number_episode}}) Tập
+                                    @endif
+
+                                 @elseif($country_movie ->episode_count == 0)
+                                    Đang Cập Nhật
+                                 @elseif($country_movie ->episode_count == 0 && $country_movie->number_episode != 1)
+                                    Coming soon
+                                 @else
+                                     Tập {{$country_movie ->episode[0]->episode}}
+                                 @endif
+                                 </span>
+                              <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
                                  @if ($country_movie ->subtitle == 0)
                                     VietSub
                                  @elseif($country_movie ->subtitle == 1)

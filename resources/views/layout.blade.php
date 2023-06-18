@@ -32,6 +32,13 @@
       <link rel='stylesheet' id='bootstrap-css' href={{asset('css/bootstrap.min.css?ver=5.7.2')}} media='all' />
       <link rel='stylesheet' id='style-css' href={{asset('css/style.css?ver=5.7.2')}} media='all' />
       <link rel='stylesheet' id='wp-block-library-css' href={{asset('css/style.min.css?ver=5.7.2')}} media='all' />
+
+      <!-- Thư viện SweetAlert2 CSS -->
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.min.css">
+
+      <!-- Thư viện SweetAlert2 JavaScript -->
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.min.js"></script>
+
       <script type='text/javascript' src={{asset('js/jquery.min.js?ver=5.7.2')}} id='halim-jquery-js'></script>
       <style type="text/css" id="wp-custom-css">
          .textwidget p a img {
@@ -65,10 +72,12 @@
                            <div class="form-group form-search">
                               <div class="input-group col-xs-12">
                                  <form id="search-form-pc" name="search" role="search" action="{{route('search')}}" method="GET">
+                                    <div class="input-with-button">
                                     <input id="search-layout" type="text" name="search" class="form-control" placeholder="Tìm kiếm..." autocomplete="off" required>
                                     <button class="search-button" type="submit">
                                        <span class="fas fa-search"></span>
                                     </button>
+                                    </div>
                                  </form>
                               </div>
                            </div>
@@ -109,9 +118,9 @@
                <div class="collapse navbar-collapse" id="halim">
                   <div class="menu-menu_1-container">
                      <ul id="menu-menu_1" class="nav navbar-nav navbar-left">
-                        <li class="current-menu-item active"><a title="Trang Chủ" href="{{route('homepage')}}">Trang Chủ</a></li>
+                        <li class="mega"><a title="Trang Chủ" href="{{route('homepage')}}">Trang Chủ</a></li>
 
-                        <li class="mega"><a title="" href="!#">
+                        <li class="mega"><a title="" href="#!">
                            Phim Mới
                         </a></li>
                         @foreach ($category as $key =>$category_home)
@@ -141,29 +150,37 @@
                         </li>
                      </ul>
                   </div>
-                  <ul class="nav navbar-nav navbar-left" style="background:#000;">
-                     <li><a href="#" onclick="locphim()" style="color: #ffed4d;">Lọc Phim</a></li>
+                  <ul class="nav navbar-nav navbar-left">
+                     <li><a href="#" onclick="toggleFilter()">Lọc Phim</a></li>
                   </ul>
+
+
                </div>
             </nav>
+
             <div class="collapse navbar-collapse" id="search-form">
-               <div id="mobile-search-form" class="halim-search-form"></div>
+               <div id="mobile-search-form" class="halim-search-form">
+               </div>
             </div>
             <div class="collapse navbar-collapse" id="user-info">
-               <div id="mobile-user-login"></div>
+               <div id="mobile-user-login">
+
+               </div>
             </div>
          </div>
       </div>
       </div>
 
       <div class="container">
-         <div class="row fullwith-slider"></div>
+         <div class="row fullwith-slider" style="background: #171f27;border-bottom: 1px solid #1d2731;padding: 12px 15px; " >
+            @include('pages.include.filter')
+         </div>
       </div>
       <div class="container">
          @yield('content')
       </div>
       <div class="clearfix"></div>
-      {{-- <footer id="footer" class="clearfix">
+      <footer id="footer" class="clearfix">
          <div class="container footer-columns">
             <div class="row container">
                <div class="widget about col-xs-12 col-sm-4 col-md-4">
@@ -174,7 +191,7 @@
                </div>
             </div>
          </div>
-      </footer> --}}
+      </footer>
       <div id='easy-top'></div>
 
       <script type='text/javascript' src={{asset('js/bootstrap.min.js?ver=5.7.2')}} id='bootstrap-js'></script>
@@ -251,6 +268,28 @@
             });
          })
       </script>
+      {{-- lọc phim --}}
+      <script>
+         var isThanhLocPhimHienThi = false;
+         function toggleFilter() {
+               var filterContainer = document.getElementById("thanh-loc-phim");
+               filterContainer.classList.toggle("show");
+            }
+
+     </script>
+
+      {{-- thong bao khi phim chưa được thêm trang watch --}}
+      <script>
+         function showCustomAlert() {
+             Swal.fire({
+                 title: "Thông báo",
+                 text: "Phim đang cập nhật. Vui lòng chọn phim khác để xem.",
+                 icon: "info",
+                 confirmButtonText: "Đóng",
+                 showCloseButton: true,
+             });
+         }
+     </script>
 
       <style>#overlay_mb{position:fixed;display:none;width:100%;height:100%;top:0;left:0;right:0;bottom:0;background-color:rgba(0, 0, 0, 0.7);z-index:99999;cursor:pointer}#overlay_mb .overlay_mb_content{position:relative;height:100%}.overlay_mb_block{display:inline-block;position:relative}#overlay_mb .overlay_mb_content .overlay_mb_wrapper{width:600px;height:auto;position:relative;left:50%;top:50%;transform:translate(-50%, -50%);text-align:center}#overlay_mb .overlay_mb_content .cls_ov{color:#fff;text-align:center;cursor:pointer;position:absolute;top:5px;right:5px;z-index:999999;font-size:14px;padding:4px 10px;border:1px solid #aeaeae;background-color:rgba(0, 0, 0, 0.7)}#overlay_mb img{position:relative;z-index:999}@media only screen and (max-width: 768px){#overlay_mb .overlay_mb_content .overlay_mb_wrapper{width:400px;top:3%;transform:translate(-50%, 3%)}}@media only screen and (max-width: 400px){#overlay_mb .overlay_mb_content .overlay_mb_wrapper{width:310px;top:3%;transform:translate(-50%, 3%)}}</style>
 

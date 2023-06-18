@@ -24,7 +24,23 @@
                         <div class="halim-item">
                            <a class="halim-thumb" href="{{route('movie',$category_movie->slug)}}" title="{{$category_movie->title}}">
                               <figure><img class="lazy img-responsive" src="{{asset('uploads/movies/'.$category_movie->image)}}" alt="{{$category_movie->title}}" title="{{$category_movie->title}}"></figure>
-                              <span class="status">5/5</span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
+                              <span class="status">
+                                 @if ($category_movie ->episode_count == $category_movie->number_episode)
+                                    @if ($category_movie ->episode_count == 1)
+                                       Hoàn Thành
+                                       @else
+                                       Full ({{$category_movie ->episode_count}}/{{$category_movie->number_episode}}) Tập
+                                    @endif
+
+                                 @elseif($category_movie ->episode_count == 0 && $category_movie->number_episode == 1)
+                                    Đang Cập Nhật
+                                 @elseif($category_movie ->episode_count == 0 && $category_movie->number_episode != 1)
+                                    Coming soon
+                                 @else
+                                     Tập {{$category_movie ->episode[0]->episode}}
+                                 @endif
+                                 </span>
+                                 <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
                                  @if ($category_movie ->subtitle == 0)
                                     VietSub
                                  @elseif($category_movie ->subtitle == 1)

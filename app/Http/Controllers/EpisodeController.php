@@ -26,9 +26,9 @@ class EpisodeController extends Controller
      */
     public function create()
     {
-        $default_movie_id = '<option>Chọn tập phim</option>';
+
         $list_movie = Movie::orderBy('id','DESC')->pluck('title','id');
-        return view('admincp.episode.form',compact('list_movie','default_movie_id'));
+        return view('admincp.episode.form',compact('list_movie'));
     }
 
     /**
@@ -132,5 +132,12 @@ class EpisodeController extends Controller
                 $output .= '<option value="'.$epi.'">'.$epi.'</option>';
             }
         echo $output;
+    }
+
+    //add tap phim tu trang phim
+    public function add_episode($id) {
+        $movie = Movie::with('episode')->where('id',$id)->pluck('title','id');
+        
+        return view('admincp.episode.add-episode',compact('movie'));
     }
 }
