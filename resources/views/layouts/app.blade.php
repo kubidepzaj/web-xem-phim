@@ -278,6 +278,15 @@
                     });
                 });
                 </script>
+                <script type="text/javascript">
+                    function goBack() {
+                    var previousValue = localStorage.getItem('country');
+                    // Sử dụng giá trị previousValue để thực hiện hành động mong muốn
+
+                    window.history.back();
+                    }
+                    </script>
+
     </div>
 </body>
 </html>

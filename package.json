@@ -5,6 +5,8 @@
         "build": "vite build"
     },
     "devDependencies": {
+        "@babel/plugin-proposal-decorators": "^7.22.5",
+        "@babel/preset-env": "^7.22.5",
         "@popperjs/core": "^2.11.6",
         "axios": "^1.1.2",
         "bootstrap": "^5.2.3",
@@ -13,5 +15,8 @@
         "postcss": "^8.1.14",
         "sass": "^1.56.1",
         "vite": "^4.0.0"
+    },
+    "dependencies": {
+        "toastify-js": "^1.12.0"
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -14,7 +15,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $list = Category::orderBy('position','ASC')->get();
+        $list = Category::orderBy('id','ASC')->get();
         return view('admincp.category.index',compact('list'));
     }
 
@@ -34,18 +35,41 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    // public function store(Request $request)
+    // {
+    //     $data = $request -> all();
+    //     $category = new Category();
+    //     $category -> title = $data['title'];
+    //     $category -> description = $data['description'];
+    //     $category -> status = $data['status'];
+    //     $category -> slug = $data['slug'];
+    //     $category -> save();
+    //     $list = Category::all();
+    //     return view('admincp.category.index',compact('list')); ;
+    // }
     public function store(Request $request)
-    {
-        $data = $request -> all();
-        $category = new Category();
-        $category -> title = $data['title'];
-        $category -> description = $data['description'];
-        $category -> status = $data['status'];
-        $category -> slug = $data['slug'];
-        $category -> save();
-        $list = Category::all();
-        return view('admincp.category.index',compact('list')); ;
+{
+    $validator = Validator::make($request->all(), [
+        'title' => 'required|unique:categories|regex:/^[^0-9]*$/',
+        // 'status' => 'required',
+        //'slug' => 'required|unique:categories'
+    ],[
+        'title.regex' => 'Nhập sai định dạng',
+        'title.required' => 'Không được để trống tên',
+        'title.unique' => 'Tên danh mục phim đã tồn tại',
+    ]);
+
+    if ($validator->fails()) {
+        return redirect()->back()->withErrors($validator)->withInput();
     }
+    $data = $request->all();
+    $category = new Category();
+    $category->fill($data);
+    $category->save();
+
+    $list = Category::all();
+    return view('admincp.category.index', compact('list'));
+}
 
     /**
      * Display the specified resource.
@@ -67,7 +91,7 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $category = Category::find($id);
-        $list = Category::orderBy('position','ASC')->get();
+        $list = Category::orderBy('id','ASC')->get();
         return view('admincp.category.edit',compact('category','list'));
     }
 
@@ -80,6 +104,20 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|regex:/^[^0-9]*$/',
+            // 'status' => 'required',
+            'slug' => 'required'
+        ],[
+            'title.regex' => 'Nhập sai định dạng',
+            'title.required' => 'Không được để trống tên',
+            'title.unique' => 'Tên danh mục phim đã tồn tại',
+            'slug.required' => 'Không được để trống slug',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         $data = $request -> all();
         $category = Category::find($id);
         $category -> title = $data['title'];
@@ -87,8 +125,7 @@ class CategoryController extends Controller
         $category -> status = $data['status'];
         $category -> slug = $data['slug'];
         $category -> save();
-        $list = Category::all();
-        return view('admincp.category.index',compact('list')); ;
+        return redirect()->route('category.index');
     }
 
     /**

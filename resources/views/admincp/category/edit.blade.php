@@ -8,6 +8,17 @@
                 <div class="card-header">Quản Lí Danh Mục Phim</div>
 
                 <div class="card-body">
+                    @if ($errors->any())
+                        <div id="errorPopup" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                @foreach ($errors->all() as $error)
+                                    {{ $error }}
+                                @endforeach
+
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
                     @if (isset($category))
                     {!! Form::open(['route' => ['category.update',$category -> id],'method'=>'PUT']) !!}
                     @endif

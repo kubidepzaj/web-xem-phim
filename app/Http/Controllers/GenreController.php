@@ -44,7 +44,8 @@ class GenreController extends Controller
         $genre -> slug = $data['slug'];
         $genre -> save();
         $list = Genre::all();
-        return view('admincp.genre.index',compact('list')); 
+        toastr()->success('Data has been saved successfully!', 'Congrats');
+        return view('admincp.genre.index',compact('list'));
     }
 
     /**
@@ -88,6 +89,7 @@ class GenreController extends Controller
         $genre -> slug = $data['slug'];
         $genre -> save();
         $list = Genre::all();
+        toastr()->success('Data has been saved successfully!', 'Congrats');
         return view('admincp.genre.index',compact('list')); ;
     }
 
@@ -100,6 +102,7 @@ class GenreController extends Controller
     public function destroy($id)
     {
         Genre::find($id) -> delete();
+        toastr()->success('Data has been saved successfully!', 'Congrats');
         return redirect()->back();
     }
 }

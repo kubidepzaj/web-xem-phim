@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Country;
+use Illuminate\Support\Facades\Validator;
 
 class CountryController extends Controller
 {
@@ -36,6 +37,19 @@ class CountryController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|unique:categories|regex:/^[^0-9]*$/',
+            // 'status' => 'required',
+            //'slug' => 'required|unique:categories'
+        ],[
+            'title.regex' => 'Nhập sai định dạng',
+            'title.required' => 'Không được để trống tên',
+            'title.unique' => 'Tên danh mục phim đã tồn tại',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         $data = $request -> all();
         $country = new Country();
         $country -> title = $data['title'];
@@ -80,6 +94,19 @@ class CountryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|unique:categories|regex:/^[^0-9]*$/',
+            // 'status' => 'required',
+            //'slug' => 'required|unique:categories'
+        ],[
+            'title.regex' => 'Nhập sai định dạng',
+            'title.required' => 'Không được để trống tên',
+            'title.unique' => 'Tên danh mục phim đã tồn tại',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         $data = $request -> all();
         $country = country::find($id);
         $country -> title = $data['title'];
