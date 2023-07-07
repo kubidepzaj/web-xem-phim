@@ -5,7 +5,6 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Quản Lí Thể Loại</div>
 
                 <div class="card-body">
                     @if (isset($genre))
@@ -19,7 +18,7 @@
                     </div>
                     <div class="form-group">
                         {!! Form::label('slug', 'Slug', []) !!}
-                        {!! Form::text('slug', null, ['class'=>'form-control', 'placeholder'=>'Tên Thể Loại' , 'id' => 'convert_slug']) !!}
+                        {!! Form::text('slug', isset($genre) ? $genre ->slug : '', ['class'=>'form-control', 'placeholder'=>'Tên Thể Loại' , 'id' => 'convert_slug']) !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('description', 'Description', []) !!}

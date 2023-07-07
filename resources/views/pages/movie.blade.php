@@ -19,16 +19,24 @@
 
                      <div class="halim-movie-wrapper">
                         <div class="title-block">
-                           <div id="bookmark" class="bookmark-img-animation primary_ribbon" data-id="38424">
-                              <div class="halim-pulse-ring"></div>
-                           </div>
+                           <form>
+                              @csrf
+                              <div id="bookmark"
+                                 class="bookmark-img-animation primary_ribbon"
+                                 onclick="return bookmarks()"
+                                 data-publisher_id="{{Session::get('publisher_id')}}"
+                                 data-movie_id="{{$movie->id}}"
+                              >
+                                 <div class="halim-pulse-ring"></div>
+                              </div>
+                           </form>
                            <div class="title-wrapper" style="font-weight: bold;">
                               Bookmark
                            </div>
                         </div>
                         <div class="movie_info col-xs-12">
                            <div class="movie-poster col-md-3">
-                              <img class="movie-thumb" src="{{asset('uploads/movies/'.$movie->image)}}" alt="{{$movie->title}}" alt="GÓA PHỤ ĐEN">
+                              <img class="movie-thumb" src="{{asset('uploads/movies/'.$movie->image)}}" alt="{{$movie->title}}">
                               <div class="bwa-content">
                                  <div class="loader"></div>
                                  @empty($episode_first->episode)
@@ -36,7 +44,7 @@
                                           <i class="fa fa-play"></i>
                                     </a>
                                  @else
-                                    <a href="{{ url('xem-phim/'.$movie->slug.'/tap-'.$episode_first->episode) }}" class="bwac-btn">
+                                    <a href="{{ url('xem-phim/'.$movie->slug.'/tap-'.$episode_first->episode.'/server-'.$episode_first->link) }}" class="bwac-btn">
                                           <i class="fa fa-play"></i>
                                     </a>
                                  @endempty
@@ -46,7 +54,13 @@
                            </div>
                            <div class="film-poster col-md-9">
                               <h1 class="movie-title title-1" style="display:block;line-height:35px;margin-bottom: -14px;color: #ffed4d;text-transform: uppercase;font-size: 18px;">{{$movie->title}}</h1>
-                              <h2 class="movie-title title-2" style="font-size: 12px;">Black Widow (2021)</h2>
+                              <h2 class="movie-title title-2" style="font-size: 12px;">
+                                 @if (isset($movie->eng_name))
+                                    {{$movie->eng_name}}
+                                 @else
+                                    {{$movie->title}} ({{$movie->year}})
+                                 @endif
+                              </h2>
                               <div class="slimScrollDiv">
                               <ul class="list-info-group">
                                  <li class="list-info-group-item"><span>Trạng thái</span> :
@@ -201,7 +215,7 @@
                                  <div class="halim-post-title-box">
                                     <div class="halim-post-title ">
                                        <p class="entry-title">{{$related_movie->title}}</p>
-                                       <p class="original_title">Monkey King: The One And Only</p>
+                                       <p class="original_title">{{$related_movie->eng_name}}</p>
                                     </div>
                                  </div>
                               </a>

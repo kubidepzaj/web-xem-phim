@@ -8,10 +8,24 @@
                 <div class="card-header">Thêm Phim</div>
 
                 <div class="card-body">
+                    @if ($errors->any())
+                        <div id="errorPopup" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                @foreach ($errors->all() as $error)
+                                    {{ $error }} <br>
+                                @endforeach
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
                     {!! Form::open(['route' => 'movie.store','method'=>'POST','enctype' =>'multipart/form-data']) !!}
                     <div class="form-group">
                         {!! Form::label('title', 'Title', []) !!}
                         {!! Form::text('title', null, ['class'=>'form-control', 'placeholder'=>'Tên Phim', 'id' => 'slug', 'onkeyup' => 'ChangeToSlug()']) !!}
+                    </div>
+                    <div class="form-group">
+                        {!! Form::label('eng_name', 'Tên tiếng anh', []) !!}
+                        {!! Form::text('eng_name', null, ['class'=>'form-control', 'placeholder'=>'Tên Phim', 'id' => 'slug', 'onkeyup' => 'ChangeToSlug()']) !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('slug', 'Slug', []) !!}

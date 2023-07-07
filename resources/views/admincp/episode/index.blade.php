@@ -16,6 +16,7 @@
           <th scope="col">Tên Phim</th>
           <th scope="col">Tập Phim</th>
           <th scope="col">Link Phim</th>
+          <th scope="col">Link Server</th>
           {{-- <th scope="col">Trạng Thái</th> --}}
           <th scope="col">Hành Động</th>
         </tr>
@@ -26,14 +27,14 @@
             <th scope="row">{{$key + 1}}</th>
             <td>{{$episode->movie->title}}</td>
             <td>{{$episode->episode}}</td>
-            <td>{!! $episode->movie_link !!}</td>
-            {{-- <td>
-                @if ($cate -> status)
-                    Hoạt động
-                @else
-                    Ẩn
+            <td>{{ $episode->movie_link }}</td>
+            <td>
+              @foreach ($list_server as $key => $server_link)
+                @if ($episode ->link == $server_link->id)
+                  {{$server_link->name}}
                 @endif
-            </td> --}}
+              @endforeach
+            </td>
             <td>
                 {!! Form::open(['method' => 'DELETE','route'=>['episode.destroy', $episode->id],'onsubmit'=> 'return confirm("Bạn có muốn xóa")']) !!}
                     {!! Form::submit('Xóa', ['class' => "btn btn-danger"]) !!}

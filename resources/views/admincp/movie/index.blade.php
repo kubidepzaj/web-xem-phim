@@ -1,19 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid">
+{{-- <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-9">
             <div class="card-header">Quản Lí Phim</div>
             <a href="{{route('movie.create')}}">
                      Thêm Phim
-             </a>
-{{-- <div class="container table-responsive py-5"> --}}
+             </a> --}}
+<div class="table-responsive">
     <table class="table table-responsive" id="tableMovie">
       <thead class="thead-dark">
         <tr>
           <th scope="col">#</th>
           <th scope="col">Tên Phim</th>
+          <th scope="col">Tên Tiếng Anh</th>
           <th scope="col">Mô Tả</th>
           <th scope="col">Tags</th>
           <th scope="col">Trạng Thái</th>
@@ -38,8 +39,9 @@
         <tr>
             <th scope="row">{{$key + 1}}</th>
             <td>{{$movie->title}}</td>
+            <td>{{$movie->eng_name}}</td>
             <td>
-              @if (strlen($movie->description)> 150)
+              @if (strlen($movie->description)> 100)
                 @php
                     $description = substr($movie->description,0,30);
                     echo $description.'...'
@@ -54,8 +56,10 @@
                   $tags = substr($movie->tags,0,30);
                   echo $tags.'...'
               @endphp
+              @elseif(!empty($movie->eng_name))
+                {{$movie->title}}
               @else
-                {{$movie->tags}}
+                {{($movie->tags)}}
             @endif
             </td>
             <td>
@@ -130,7 +134,7 @@
     </table>
     </div>
 
-        </div>
+        {{-- </div>
     </div>
-</div>
+</div> --}}
 @endsection

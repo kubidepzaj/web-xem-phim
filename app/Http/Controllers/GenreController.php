@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Genre;
+use App\Models\Movie_Genre;
+use App\Models\Episode;
 
 class GenreController extends Controller
 {
@@ -44,7 +46,7 @@ class GenreController extends Controller
         $genre -> slug = $data['slug'];
         $genre -> save();
         $list = Genre::all();
-        toastr()->success('Data has been saved successfully!', 'Congrats');
+        toastr()->success('Thêm dữ liệu thành công!', 'Chúc mừng');
         return view('admincp.genre.index',compact('list'));
     }
 
@@ -89,7 +91,7 @@ class GenreController extends Controller
         $genre -> slug = $data['slug'];
         $genre -> save();
         $list = Genre::all();
-        toastr()->success('Data has been saved successfully!', 'Congrats');
+        toastr()->success('Cập nhật dữ liệu thành công!', 'Chúc mừng');
         return view('admincp.genre.index',compact('list')); ;
     }
 
@@ -101,8 +103,9 @@ class GenreController extends Controller
      */
     public function destroy($id)
     {
-        Genre::find($id) -> delete();
-        toastr()->success('Data has been saved successfully!', 'Congrats');
-        return redirect()->back();
+        $genre = Genre::find($id);
+        $genre->delete();
+        toastr()->success('Xóa dữ liệu thành công!', 'Chúc mừng');
+        return redirect()->route('genre.index');
     }
 }

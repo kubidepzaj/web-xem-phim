@@ -16,6 +16,10 @@
                         {!! Form::text('title', $movie ->title, ['class'=>'form-control', 'placeholder'=>'Tên Phim', 'id' => 'slug', 'onkeyup' => 'ChangeToSlug()']) !!}
                     </div>
                     <div class="form-group">
+                        {!! Form::label('eng_name', 'Tên tiếng anh', []) !!}
+                        {!! Form::text('eng_name', $movie ->eng_name, ['class'=>'form-control', 'placeholder'=>'Tên Phim', 'id' => 'slug', 'onkeyup' => 'ChangeToSlug()']) !!}
+                    </div>
+                    <div class="form-group">
                         {!! Form::label('slug', 'Slug', []) !!}
                         {!! Form::text('slug', $movie ->slug, ['class'=>'form-control', 'placeholder'=>'Tên Slug' , 'id' => 'convert_slug']) !!}
                     </div>

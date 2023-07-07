@@ -12,6 +12,7 @@ use App\Models\Episode;
 use Carbon\Carbon;
 use Storage;
 use File;
+use Illuminate\Support\Facades\Validator;
 
 class MovieController extends Controller
 {
@@ -51,7 +52,13 @@ class MovieController extends Controller
                </div>
                <p class="title">'.$mov->title.'</p>
             </a>
-            <div class="viewsCount" style="color: #9d9d9d;">3.2K lượt xem</div>
+            <div class="viewsCount" style="color: #9d9d9d;">';
+            if ($mov->views > 0) {
+                $output .= $mov->views.' lượt quan tâm';
+            } else {
+                $output .= rand(100, 99999).' lượt quan tâm';
+            }
+        $output .= '</div>
             <div style="float: left;">
                <span class="user-rate-image post-large-rate stars-large-vang" style="display: block;/* width: 100%; */">
                <span style="width: 0%"></span>
@@ -71,12 +78,18 @@ class MovieController extends Controller
             $output.='<div class="item post-37176">
             <a href="'.url('phim/'.$mov->slug).'" title="'.$mov->title.'">
                <div class="item-link">
-                  <img src="'.url('uploads/movies/'.$mov->image).'" class="lazy post-thumb" alt="CHỊ MƯỜI BA: BA NGÀY SINH TỬ" title="CHỊ MƯỜI BA: BA NGÀY SINH TỬ" />
+                  <img src="'.url('uploads/movies/'.$mov->image).'" class="lazy post-thumb" alt="'.$mov->title.'" title="'.$mov->title.'" />
                   <span class="is_trailer">Trailer</span>
                </div>
                <p class="title">'.$mov->title.'</p>
             </a>
-            <div class="viewsCount" style="color: #9d9d9d;">3.2K lượt xem</div>
+            <div class="viewsCount" style="color: #9d9d9d;">';
+            if ($mov->views > 0) {
+                $output .= $mov->views.' lượt quan tâm';
+            } else {
+                $output .= rand(100, 99999).' lượt quan tâm';
+            }
+        $output .= '</div>
             <div style="float: left;">
                <span class="user-rate-image post-large-rate stars-large-vang" style="display: block;/* width: 100%; */">
                <span style="width: 0%"></span>
@@ -126,10 +139,25 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|unique:movies',
+            'description' => 'required',
+            'slug' => 'required',
+        ],[
+            'title.regex' => 'Nhập sai định dạng',
+            'title.required' => 'Không được để trống tên',
+            'title.unique' => 'Tên phim đã tồn tại',
+            'slug.required' => 'Không được để trống slug',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         $data = $request ->all();
         $movie = new Movie();
         // return response()->json($data['genre']);
         $movie->title = $data['title'];
+        $movie->eng_name = $data['eng_name'];
         $movie->description = $data['description'];
         $movie->tags = $data['tags'];
         $movie->time = $data['time'];
@@ -141,6 +169,7 @@ class MovieController extends Controller
         $movie->hot_movie = $data['hot_movie'];
         $movie->category_id = $data['category_id'];
         $movie->country_id = $data['country_id'];
+        $movie->views = rand(100,99999);
         $movie->date_created = Carbon::now('Asia/Ho_Chi_minh');
         $movie->update_movie_day = Carbon::now('Asia/Ho_Chi_minh');
 
@@ -156,6 +185,7 @@ class MovieController extends Controller
         $movie -> save();
 
         $movie->movie_genre()->sync($data['genre']);
+        toastr()->success('Thêm dữ liệu thành công!', 'Chúc mừng');
 
         return redirect()->route('movie.index');
     }
@@ -201,6 +231,7 @@ class MovieController extends Controller
         $data = $request ->all();
         $movie = Movie::find($id);
         $movie->title = $data['title'];
+        $movie->eng_name = $data['eng_name'];
         $movie->description = $data['description'];
         $movie->status = $data['status'];
         $movie->time = $data['time'];
@@ -232,7 +263,7 @@ class MovieController extends Controller
         $movie -> save();
 
         $movie->movie_genre()->sync($data['genre']);
-
+        toastr()->success('Cập nhật dữ liệu thành công!', 'Chúc mừng');
         return redirect()->route('movie.index');
 
     }
@@ -253,7 +284,7 @@ class MovieController extends Controller
         Movie_Genre::whereIn('movie_id',[$movie->id])->delete();
         Episode::whereIn('movie_id',[$movie->id])->delete();
         $movie->delete();
-
+        toastr()->success('Xóa dữ liệu thành công!', 'Chúc mừng');
         return redirect()->back();
     }
 }

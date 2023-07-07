@@ -55,5 +55,13 @@
                         </span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{route('info.index')}}">
+                        <i class="fa fa-book fa-2x"></i>
+                        <span class="nav-text">
+                           Thông tin website
+                        </span>
+                    </a>
+                </li>
         </nav>
 

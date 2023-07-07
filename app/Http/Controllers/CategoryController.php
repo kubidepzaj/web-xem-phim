@@ -68,6 +68,7 @@ class CategoryController extends Controller
     $category->save();
 
     $list = Category::all();
+    toastr()->success('Thêm dữ liệu thành công!', 'Chúc mừng');
     return view('admincp.category.index', compact('list'));
 }
 
@@ -125,6 +126,7 @@ class CategoryController extends Controller
         $category -> status = $data['status'];
         $category -> slug = $data['slug'];
         $category -> save();
+        toastr()->success('Cập nhật dữ liệu thành công!', 'Chúc mừng');
         return redirect()->route('category.index');
     }
 
@@ -137,6 +139,7 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         Category::find($id) -> delete();
+        toastr()->success('Xóa dữ liệu thành công!', 'Chúc mừng');
         return redirect()->route('category.index');
     }
 

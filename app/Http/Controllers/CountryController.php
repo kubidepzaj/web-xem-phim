@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Country;
+use App\Models\Movie;
+use App\Models\Episode;
 use Illuminate\Support\Facades\Validator;
 
 class CountryController extends Controller
@@ -58,6 +60,7 @@ class CountryController extends Controller
         $country -> slug = $data['slug'];
         $country -> save();
         $list = Country::all();
+        toastr()->success('Thêm dữ liệu thành công!', 'Chúc mừng');
         return view('admincp.country.index',compact('list')); ;
     }
 
@@ -115,6 +118,7 @@ class CountryController extends Controller
         $country -> slug = $data['slug'];
         $country -> save();
         $list = Country::all();
+        toastr()->success('Cập nhật dữ liệu thành công!', 'Chúc mừng');
         return view('admincp.country.index',compact('list')); ;
     }
 
@@ -126,7 +130,11 @@ class CountryController extends Controller
      */
     public function destroy($id)
     {
-        country::find($id) -> delete();
-        return redirect()->back();
+        $country = Country::find($id);
+        $movie = Movie::whereIn('country_id',[$country->id])->delete();
+        Episode::whereIn('movie_id',[$movie->id])->delete();
+        $country->delete();
+        toastr()->success('Xóa dữ liệu thành công!', 'Chúc mừng');
+        return redirect()->route('country.index');
     }
 }

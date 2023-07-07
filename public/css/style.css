@@ -70,7 +70,7 @@ img:hover {
 }
 #headwrap .col-md-3.slogan {
     margin-top: -5px;
-    padding: 0;
+    /* padding: 0; */
 }
 #headwrap .col-md-4 {
     padding-right: 0;
@@ -836,6 +836,13 @@ button.navbar-toggle.collapsed {
     margin-top: 5px;
     margin-bottom: 10px;
 }
+.popular-post .des-search {
+    font-size: 12px;
+    /* margin-bottom: 10px; */
+    width: 79%;
+    float: right;
+}
+
 .popular-post a {
     color: #717171;
 }
@@ -982,7 +989,7 @@ input.search-btn.pull-right {
 .dropdown-menu > li > a {
     color: #fff;
     padding: 8px 15px;
-    white-space: normal;
+    /* white-space: normal; */
 }
 @media (max-width: 767px) {
     .navbar-nav > li > .dropdown-menu li {
@@ -2799,10 +2806,11 @@ tr.title {
     }
 }
 #footer {
-    background: rgba(0, 0, 0, 0.28) no-repeat top right;
-    background-blend-mode: color-dodge;
-    margin-top: 20px;
-    border-top: 4px solid #0e1215;
+    /* background: rgba(0, 0, 0, 0.28) no-repeat top right; */
+    /* background-blend-mode: color-dodge;
+    /* margin-top: 20px; */
+    /* border-top: 3px solid #0e1215; */
+    margin-bottom: 40px;
 }
 #footer .footer-logo {
     margin: -20px -20px 0;
@@ -2819,17 +2827,16 @@ tr.title {
     font-size: 13px;
 }
 #footer p a {
-    color: #f0f8ff;
+    color: #408BEA;
 }
-#footer ul li {
+/* #footer ul li {
     padding: 6px 8px;
-}
+} */
 #footer ul li a {
-    color: #eee;
     border-radius: 50% !important;
 }
 #footer .widget {
-    padding: 15px;
+    padding: 15px 15px 15px 0;
 }
 #footer .widget ul {
     margin: 0;
@@ -2870,8 +2877,99 @@ tr.title {
     padding-top: 10px;
 }
 .container.footer-columns {
-    padding: 0;
+    border-top: 3px solid #0e1215;
+    background: rgba(0,0,0,0.28);
+    box-shadow: 0 10px 25px -7px rgba(0,0,0,.7);
+    padding: 0 40px;
 }
+
+
+/* footer */
+.primary {
+    border-bottom: solid 1px rgba(255,255,255,.1);
+}
+.primary {
+    float: left;
+    width: 100%;
+    padding: 40px 0;
+}
+.primary .columenu {
+    float: right;
+}
+.primary .columenu .item {
+    float: left;
+    width: 170px;
+}
+.primary .columenu .item h3 {
+    color: rgba(255,255,255,.8);
+    font-weight: 500;
+    font-size: 15px;
+    padding: 10px 0;
+}
+.primary .columenu .item ul {
+    padding: 0;
+    list-style: none;
+    float: left;
+    width: 100%;
+    color: #408BEA;
+}
+.primary .columenu .item ul li a {
+    padding: 7px 0;
+    float: left;
+    width: 100%;
+    color: #408BEA;
+
+}
+.fmenu .menu .menu-item a{
+    color: #eee;
+}
+.primary .fotlogo {
+    float: left;
+    max-width: 320px;
+}
+.primary .fotlogo .logo {
+    width: 100%;
+    float: left;
+    padding: 35px 0 10px 0;
+}
+.primary .fotlogo .logo img {
+    max-width: 200px;
+    height: auto;
+}
+.primary .fotlogo .text {
+    padding: 10px 0;
+    width: 100%;
+    float: left;
+}
+.primary .fotlogo .text p {
+    line-height: 20px;
+}
+.copy {
+    float: left;
+    padding: 40px 0;
+}
+.fmenu {
+    float: right;
+    padding: 40px 0;
+}
+.fmenu ul {
+    margin: 0;
+    float: left;
+    width: 100%;
+}
+.fmenu ul li:first-child {
+    border-left: 0;
+}
+.fmenu ul {
+    list-style: none;
+    border-color: rgba(255,255,255,.08);
+}
+.fmenu ul li {
+    float: left;
+    padding: 0 20px;
+    /* border-left: solid 1px; */
+}
+/* footer */
 .footer-credit {
     background: #0e1215;
 }
@@ -3849,7 +3947,7 @@ a .hl-dot-3 {
     background: #315c84;
 }
 #halim-list-server ul.nav-tabs li {
-    margin: 0;
+    margin:1px;
 }
 #halim-list-server ul.nav-tabs li a {
     margin: 0;
@@ -4329,7 +4427,7 @@ a .hl-dot-3 {
 .halim-bookmark-lists li .bookmark-title {
     color: #d4d4d4;
     display: block;
-    font-size: 12px;
+    font-size: 13px;
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -4346,6 +4444,7 @@ a .hl-dot-3 {
     position: absolute;
     right: 0;
     cursor: pointer;
+    bottom: 5px;
 }
 .halim-bookmark-lists li .remove-bookmark:hover {
     background: #b32020;
@@ -4365,13 +4464,13 @@ a .hl-dot-3 {
 #get-bookmark:hover {
     background: #337ab7;
 }
-#get-bookmark span.count {
+span.count {
     background: #f11b1b;
     padding: 3px 6px;
     color: #fff;
     font-size: 13px;
     border-radius: 20px;
-    margin-left: 10px;
+    margin-left: 5px;
 }
 .halim-bookmark-box {
     background: #12171b;
@@ -4381,7 +4480,8 @@ a .hl-dot-3 {
     position: absolute;
     border: 1px solid #234;
     text-align: left;
-    z-index: 99;
+    z-index: 9999;
+    left:-33px;
 }
 .halim-bookmark-box::after {
     content: "";

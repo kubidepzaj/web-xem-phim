@@ -51,7 +51,7 @@
                               <div class="halim-post-title-box">
                                  <div class="halim-post-title ">
                                     <p class="entry-title">{{$country_movie->title}}</p>
-                                    <p class="original_title">The Mire Season 1</p>
+                                    <p class="original_title">{{$country_movie->eng_name}}</p>
                                  </div>
                               </div>
                            </a>

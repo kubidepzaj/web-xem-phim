@@ -5,21 +5,17 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Quản Lí Quốc Gia</div>
-
                 <div class="card-body">
                     @if (isset($country))
                     {!! Form::open(['route' => ['country.update',$country -> id],'method'=>'PUT']) !!}
                     @endif
-
-
                     <div class="form-group">
                         {!! Form::label('title', 'Title', []) !!}
                         {!! Form::text('title', isset($country) ? $country ->title : '', ['class'=>'form-control', 'placeholder'=>'Tên Quốc Gia', 'id' => 'slug', 'onkeyup' => 'ChangeToSlug()']) !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('slug', 'Slug', []) !!}
-                        {!! Form::text('slug', null, ['class'=>'form-control', 'placeholder'=>'Tên Quốc Gia' , 'id' => 'convert_slug']) !!}
+                        {!! Form::text('slug', isset($country) ? $country ->slug : '', ['class'=>'form-control', 'placeholder'=>'Tên Quốc Gia' , 'id' => 'convert_slug']) !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('description', 'Description', []) !!}

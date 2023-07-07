@@ -49,7 +49,7 @@
                               <div class="halim-post-title-box">
                                  <div class="halim-post-title ">
                                     <p class="entry-title">{{$category_movie->title}}</p>
-                                    <p class="original_title">The Mire Season 1</p>
+                                    <p class="original_title">{{$category_movie->eng_name}}</p>
                                  </div>
                               </div>
                            </a>

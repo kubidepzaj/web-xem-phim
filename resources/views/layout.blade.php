@@ -8,20 +8,21 @@
       <meta content="VN" name="geo.region" />
       <meta name="DC.language" scheme="utf-8" content="vi" />
       <meta name="language" content="Việt Nam">
+      <meta name="csrf-token" content="{{csrf_token()}}" />
 
-
-      <link rel="shortcut icon" href="https://www.pngkey.com/png/detail/360-3601772_your-logo-here-your-company-logo-here-png.png" type="image/x-icon" />
+      <link rel="shortcut icon" href="{{asset('uploads/logos/'.$info->logo)}}" type="image/x-icon" />
       <meta name="revisit-after" content="1 days" />
       <meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
-      <title>Đồ án </title>
-      <meta name="description" content="Phim hay 2021 - Xem phim hay nhất, xem phim online miễn phí, phim hot , phim nhanh" />
-      <link rel="canonical" href="">
+      <title>{{$meta_title}}</title>
+      <meta name="description" content="" />
+
+      <link rel="canonical" href="{{Request::url()}}">
       <link rel="next" href="" />
       <meta property="og:locale" content="vi_VN" />
-      <meta property="og:title" content="Phim hay 2020 - Xem phim hay nhất" />
-      <meta property="og:description" content="Phim hay 2020 - Xem phim hay nhất, phim hay trung quốc, hàn quốc, việt nam, mỹ, hong kong , chiếu rạp" />
-      <meta property="og:url" content="" />
-      <meta property="og:site_name" content="Phim hay 2021- Xem phim hay nhất" />
+      <meta property="og:title" content="{{$meta_title}}" />
+      <meta property="og:description" content="" />
+      <meta property="og:url" content="{{Request::url()}}" />
+      <meta property="og:site_name" content="{{$meta_title}}" />
       <meta property="og:image" content="" />
       <meta property="og:image:width" content="300" />
       <meta property="og:image:height" content="55" />
@@ -39,21 +40,26 @@
       <!-- Thư viện SweetAlert2 JavaScript -->
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.min.js"></script>
 
+      <script src="https://kit.fontawesome.com/c69fb77522.js" crossorigin="anonymous"></script>
+
       <script type='text/javascript' src={{asset('js/jquery.min.js?ver=5.7.2')}} id='halim-jquery-js'></script>
       <style type="text/css" id="wp-custom-css">
          .textwidget p a img {
          width: 100%;
          }
       </style>
-      <style>#header .site-title {background: url(https://www.pngkey.com/png/detail/360-3601772_your-logo-here-your-company-logo-here-png.png) no-repeat top left;background-size: contain;text-indent: -9999px;}</style>
+      <style>#header .site-title {background: url('{{asset('uploads/logos/'.$info->logo)}}') no-repeat top left;background-size: contain;text-indent: -9999px;}</style>
    </head>
+
    <body class="home blog halimthemes halimmovies" data-masonry="">
       <header id="header">
          <div class="container">
             <div class="row" id="headwrap">
                <div class="col-md-3 col-sm-6 slogan">
-                  <p class="site-title"><a class="logo" href="" title="phim hay ">Phim Hay</p>
+                  <p class="site-title">
+                     <a class="logo" href="" title="phim hay ">
                   </a>
+                  </p>
                </div>
                <div class="col-md-5 col-sm-6 halim-search-form hidden-xs">
                   <div class="header-nav">
@@ -74,8 +80,9 @@
                                  <form id="search-form-pc" name="search" role="search" action="{{route('search')}}" method="GET">
                                     <div class="input-with-button">
                                     <input id="search-layout" type="text" name="search" class="form-control" placeholder="Tìm kiếm..." autocomplete="off" required>
-                                    <button class="search-button" type="submit">
-                                       <span class="fas fa-search"></span>
+                                          <button class="search-button" type="submit">
+                                       <i class="fa-solid fa-magnifying-glass">
+                                       </i>
                                     </button>
                                     </div>
                                  </form>
@@ -86,13 +93,107 @@
                   </div>
                </div>
                <div class="col-md-4 hidden-xs">
-                  <div id="get-bookmark" class="box-shadow"><i class="hl-bookmark"></i><span> Bookmarks</span><span class="count">0</span></div>
-                  <div id="bookmark-list" class="hidden bookmark-list-on-pc">
-                     <ul style="margin: 0;"></ul>
+                  @if (!Session::get('login_publisher'))
+                     <div id="get-bookmark" class="box-shadow">
+                        <a href="{{route('dang-ky')}}" class="button">Đăng ký</a>
+                     </div>
+                     <div id="get-bookmark" class="box-shadow">
+
+                        <a href="{{route('dang-nhap')}}" class="button">Đăng nhập</a>
+                     </div>
+                  @else
+                  <style>
+                     .btn-group-1{
+                        position: relative;
+                     }
+                     .btn.dropdown-toggle ~ .menu02,
+                     ul.menu02 {
+                        background-color: rgb(244, 244, 244);
+                        background-color: rgb(255, 255, 255);
+                        border: 0 solid rgb(66, 133, 244);
+                        box-shadow: 0px 0px 3px rgba(25, 25, 25, 0.3);
+                        top: 0px;
+                        margin: 0px;
+                        padding: 0px;
+                     }
+                     ul.menu02 {
+                        position: absolute;
+                        right: 0;
+                        width: 100%;
+                     }
+                     .menu02 .dropdown-plus-title {
+                        width: 100%;
+                        color: #fff;
+                        padding: 6px 12px;
+                        border: 0 solid rgb(173, 173, 173);
+                        border-bottom-width: 2px;
+                        cursor: pointer;
+                     }
+                     .dropdown-menu .divider {
+                       margin: 0;
+                     }
+                     ul.menu02 .dropdown-plus-title {
+                        padding-top: 10px;
+                        padding-bottom: 10px;
+                        line-height: 20px;
+                     }
+                     @media (min-width: 768px) {
+                        ul.menu02 .dropdown-plus-title {
+                           padding-top: 15px;
+                           padding-bottom: 15px;
+                        }
+                     }
+                     @media (min-width: 768px) {
+                        ul.menu02 {
+                           width: auto;
+                        }
+                     }
+                  </style>
+                 <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                      Xin chào <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu menu02" role="menu">
+                      <li class="dropdown-plus-title">
+                          {{Session::get('name')}}
+                          <b class="pull-right glyphicon glyphicon-chevron-up"></b>
+                      </li>
+                      <li><a href="#">Thông tin</a></li>
+                      <li>
+                          <a href="#!" onclick="toggleBookmarkList(event)">
+                              Bookmarks
+                              <span id="movieCount" class="count">{{$bookmark->count()}}</span>
+                          </a>
+                      </li>
+                      <li><a href="#">Nâng cấp tài khoản</a></li>
+                      <li class="divider"></li>
+                      <li><a href="{{route('dang-xuat')}}">Đăng xuất</a></li>
+                  </ul>
+              </div>
+
+              <div id="bookmark-list" class="bookmark-list-on-pc">
+               <div class="halim-bookmark-box">
+                  <div class="section-bar clearfix">
+               <h3 class="section-title">
+                  <span>Tủ phim</span>
+               </h3>
+               <span class="remove-all-bookmark box-shadow">x Remove all</span>
+            </div>
+            <ul class="halim-bookmark-lists">
+               @foreach ($bookmark as $key =>$bookmark_list)
+                  <li class="bookmark-list" id="bookmark-{{$bookmark_list->id}}">
+                     <a href="{{route('movie',$bookmark_list->movie->slug)}}">
+                           <img src="{{asset('uploads/movies/'.$bookmark_list->movie->image)}}" alt="{{$bookmark_list->movie->title}}">
+                           <span class="bookmark-title">{{$bookmark_list->movie->title}}</span>
+                           <span class="bookmark-date">{{$bookmark_list->created_at}}</span>
+                     </a>
+                     <span class="remove-bookmark box-shadow" data-bookmark-id="{{$bookmark_list->id}}">x</span>
+                  </li>
+               @endforeach
+           </ul>
                   </div>
                </div>
-            </div>
-         </div>
+                  @endif
       </header>
       <div class="navbar-container">
          <div class="container">
@@ -153,24 +254,12 @@
                   <ul class="nav navbar-nav navbar-left">
                      <li><a href="#" onclick="toggleFilter()">Lọc Phim</a></li>
                   </ul>
-
-
                </div>
             </nav>
 
-            <div class="collapse navbar-collapse" id="search-form">
-               <div id="mobile-search-form" class="halim-search-form">
-               </div>
-            </div>
-            <div class="collapse navbar-collapse" id="user-info">
-               <div id="mobile-user-login">
-
-               </div>
-            </div>
          </div>
       </div>
       </div>
-
       <div class="container">
          <div class="row fullwith-slider" style="background: #171f27;border-bottom: 1px solid #1d2731;padding: 12px 15px; " >
             @include('pages.include.filter')
@@ -182,13 +271,92 @@
       <div class="clearfix"></div>
       <footer id="footer" class="clearfix">
          <div class="container footer-columns">
-            <div class="row container">
-               <div class="widget about col-xs-12 col-sm-4 col-md-4">
+            {{-- <div class="row container">
+               {{-- <div class="widget about col-xs-12 col-sm-4 col-md-4">
                   <div class="footer-logo">
                      <img class="img-responsive" src="https://img.favpng.com/9/23/19/movie-logo-png-favpng-nRr1DmYq3SNYSLN8571CHQTEG.jpg" alt="Phim hay 2021- Xem phim hay nhất" />
                   </div>
                   Liên hệ: +84<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e5958d8c888d849ccb868aa58288848c89cb868a88">[email&#160;protected]</a>
                </div>
+
+            </div>--}}
+            <div class="primary">
+               <div class="columenu">
+                  <div class="item">
+                     <h3>Phim mới</h3>
+                     <ul>
+                        @foreach ($genre as $key => $genre_home)
+                           @if ($key < 5)
+                              <li><a href="{{route('genre', $genre_home ->slug)}}">{{ $genre_home->title }}</a></li>
+                           @else
+                              @break
+                           @endif
+                        @endforeach
+                     </ul>
+                  </div>
+                  <div class="item">
+                     <h3>Phim hay</h3>
+                     <ul>
+                        @foreach ($country as $key => $country_home)
+                           @if ($key < 5)
+                              <li><a href="{{route('country', $country_home ->slug)}}">{{ $country_home->title }}</a></li>
+                           @else
+                              @break
+                           @endif
+                        @endforeach
+                     </ul>
+                  </div>
+                  <div class="item">
+                     <h3>Thông tin</h3>
+                     <ul>
+                        <li>
+                           <a href="#!">
+                              Giới thiệu
+                           </a>
+                           <a href="#!">
+                              Liên hệ
+                           </a>
+                           <a href="#!">
+                              Bản quyền
+                           </a>
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+               <div class="fotlogo">
+                  <div class="logo">
+                     <img src="{{asset('uploads/logos/'.$info->logo)}}" alt="Phimmoi">
+                  </div>
+                  <div class="text"><p><a href="#!"><b>Netflix and Chill</b></a> - {{$info->description}}</p></div>
+               </div>
+            </div>
+            <div class="copy">Copyright © by Thien</div>
+            <span class="top-page">
+               <a href="" id="id"></a>
+            </span>
+            <div class="fmenu">
+               <ul id="menu-footer" class="menu">
+                  <li id="menu-item-14" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14">
+                     <a href="#">
+                        <i class="fab fa-facebook-f"></i>
+                     </a>
+                  </li>
+                  <li id="menu-item-15" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-15">
+                     <a href="#">
+                        <i class="fab fa-twitter"></i>
+                     </a>
+                  </li>
+                  <li id="menu-item-16" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16">
+                     <a href="#">
+                        <i class="fab fa-instagram"></i>
+                     </a>
+                  </li>
+                  <li id="menu-item-17" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-17">
+                     <a href="#">
+                        <i class="fab fa-youtube"></i>
+                     </a>
+                  </li>
+               </ul>
             </div>
          </div>
       </footer>
@@ -198,6 +366,7 @@
       <script type='text/javascript' src={{asset('js/owl.carousel.min.js?ver=5.7.2')}} id='carousel-js'></script>
 
       <script type='text/javascript' src={{asset('js/halimtheme-core.min.js?ver=1626273138')}} id='halim-init-js'></script>
+
 
       {{-- cmt facebook --}}
       <div id="fb-root"></div>
@@ -275,8 +444,25 @@
                var filterContainer = document.getElementById("thanh-loc-phim");
                filterContainer.classList.toggle("show");
             }
-
      </script>
+      {{-- bookmarks ẩn hiện--}}
+      <script>
+         var bookmarkList = document.getElementById("bookmark-list");
+         bookmarkList.classList.add("hidden");
+         function toggleBookmarkList(event) {
+            event.preventDefault();
+            var bookmarkList = document.getElementById("bookmark-list");
+            bookmarkList.classList.toggle("hidden");
+            event.stopPropagation(); // Ngăn chặn sự kiện click lan ra ngoài danh sách
+         }
+
+         document.addEventListener("click", function(event) {
+            var bookmarkList = document.getElementById("bookmark-list");
+            if (!bookmarkList.contains(event.target)) {
+               bookmarkList.classList.add("hidden");
+            }
+         });
+      </script>
 
       {{-- thong bao khi phim chưa được thêm trang watch --}}
       <script>
@@ -290,6 +476,134 @@
              });
          }
      </script>
+
+     {{-- bookmark phim --}}
+     <script>
+         function bookmarks() {
+            var movieCount = document.getElementById('movieCount');
+            var count = parseInt(movieCount.innerText);
+            var publisher_id = $('#bookmark').data('publisher_id');
+            var movie_id = $('#bookmark').data('movie_id');
+            var _token = $('input[name="_token"]').val();
+            var isAdded = false; // Biến flag để kiểm tra bộ phim đã được thêm hay chưa
+
+            // Kiểm tra xem bộ phim đã được thêm hay chưa
+            // Nếu đã thêm, không tăng giá trị movieCount và hiển thị thông báo
+            if (isAdded) {
+               alert('Phim đã có trong tủ phim');
+            } else {
+               count += 1;
+               movieCount.innerText = count;
+
+               $.ajax({
+                  url: "{{route('bookmark')}}",
+                  method: "POST",
+                  data: { publisher_id: publisher_id, movie_id: movie_id, _token: _token },
+                  success: function (data) {
+                  if (data == 'Fail') {
+                     alert('Phim đã có trong tủ phim');
+                     isAdded = true; // Đánh dấu bộ phim đã được thêm vào
+                  } else {
+                     alert('Thêm vào tủ phim thành công');
+                  }
+                  },
+               });
+            }
+  return false;
+}
+
+     </script>
+
+   {{-- xóa bookmark khỏi list --}}
+   <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          // Lấy tất cả các phần tử có class "remove-bookmark"
+          var removeBookmarkButtons = document.getElementsByClassName('remove-bookmark');
+
+          // Lặp qua từng nút "remove-bookmark"
+          Array.from(removeBookmarkButtons).forEach(function(button) {
+              // Gán sự kiện click cho từng nút
+              button.addEventListener('click', function() {
+                  // Lấy id của bookmark từ thuộc tính "data-bookmark-id"
+                  var bookmarkId = button.getAttribute('data-bookmark-id');
+
+                  // Gửi yêu cầu xóa đến máy chủ
+                  deleteBookmark(bookmarkId);
+              });
+          });
+      });
+
+      function deleteBookmark(bookmarkId) {
+          // Thực hiện yêu cầu xóa bookmark với bookmarkId được truyền vào
+          // Sử dụng Ajax hoặc fetch để gửi yêu cầu xóa đến máy chủ
+
+          // Ví dụ sử dụng fetch
+          fetch('/bookmark/delete/' + bookmarkId, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRF-TOKEN': '{{ csrf_token() }}' // Chỉ cần thêm nếu bạn sử dụng CSRF protection trong Laravel
+              },
+          })
+          .then(function(response) {
+              // Xử lý phản hồi từ máy chủ sau khi xóa thành công
+              if (response.ok) {
+                  // Xóa phần tử li tương ứng khỏi DOM
+                  var bookmarkElement = document.getElementById('bookmark-' + bookmarkId);
+                  if (bookmarkElement) {
+                      bookmarkElement.remove();
+                  }
+
+                  // Giảm giá trị movieCount xuống 1
+                  var movieCount = document.getElementById('movieCount');
+              }
+          })
+          .catch(function(error) {
+              console.log(error);
+          });
+      }
+   </script>
+   {{-- xóa tất cả bookmark --}}
+   <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          // Lấy nút "remove-all-bookmark"
+          var removeAllBookmarkButton = document.querySelector('.remove-all-bookmark');
+
+          // Gán sự kiện click cho nút
+          removeAllBookmarkButton.addEventListener('click', function() {
+              // Gửi yêu cầu xóa tất cả bookmark đến máy chủ
+              deleteAllBookmarks();
+          });
+      });
+
+      function deleteAllBookmarks() {
+          // Thực hiện yêu cầu xóa tất cả bookmark
+          // Sử dụng Ajax hoặc fetch để gửi yêu cầu xóa đến máy chủ
+
+          // Ví dụ sử dụng fetch
+          fetch('/bookmark/delete-all', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRF-TOKEN': '{{ csrf_token() }}' // Chỉ cần thêm nếu bạn sử dụng CSRF protection trong Laravel
+              },
+          })
+          .then(function(response) {
+              // Xử lý phản hồi từ máy chủ sau khi xóa thành công
+              if (response.ok) {
+                  // Xóa tất cả phần tử li trong ul
+                  var bookmarkList = document.querySelector('.halim-bookmark-lists');
+                  if (bookmarkList) {
+                      bookmarkList.innerHTML = '';
+                  }
+              }
+          })
+          .catch(function(error) {
+              console.log(error);
+          });
+      }
+  </scrip>
+
 
       <style>#overlay_mb{position:fixed;display:none;width:100%;height:100%;top:0;left:0;right:0;bottom:0;background-color:rgba(0, 0, 0, 0.7);z-index:99999;cursor:pointer}#overlay_mb .overlay_mb_content{position:relative;height:100%}.overlay_mb_block{display:inline-block;position:relative}#overlay_mb .overlay_mb_content .overlay_mb_wrapper{width:600px;height:auto;position:relative;left:50%;top:50%;transform:translate(-50%, -50%);text-align:center}#overlay_mb .overlay_mb_content .cls_ov{color:#fff;text-align:center;cursor:pointer;position:absolute;top:5px;right:5px;z-index:999999;font-size:14px;padding:4px 10px;border:1px solid #aeaeae;background-color:rgba(0, 0, 0, 0.7)}#overlay_mb img{position:relative;z-index:999}@media only screen and (max-width: 768px){#overlay_mb .overlay_mb_content .overlay_mb_wrapper{width:400px;top:3%;transform:translate(-50%, 3%)}}@media only screen and (max-width: 400px){#overlay_mb .overlay_mb_content .overlay_mb_wrapper{width:310px;top:3%;transform:translate(-50%, 3%)}}</style>
 

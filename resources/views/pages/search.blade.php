@@ -49,9 +49,25 @@
                                  <img src="{{asset('uploads/movies/'.$category_movie->image)}}" class="lazy post-thumb1" alt="{{$category_movie->title}}" title="{{$category_movie->title}}" />
                                  <span class="is_trailer">Trailer</span>
                               </div>
-                              <h4 class="title" style="color: #fff">{{$category_movie->title}}</h4>
+                              <h3 class="title" style="color: #fff" >{{$category_movie->title}}</h3>
+                              <h5 class="title" style="color: #fff">
+                                 @if(isset($category_movie->eng_name))
+                                    {{$category_movie->eng_name}} ({{$category_movie->year}})
+                                 @else
+                                    {{$category_movie->title}} {{$category_movie->year}}
+                                 @endif
+                              </h5>
                            </a>
-                           <div class="viewsCount" style="color: #9d9d9d;">{{$category_movie->description}}</div>
+                           <div class="des-search" style="color: #9d9d9d;">
+                              @if (strlen($category_movie->description)> 800)
+                                 @php
+                                    $description = substr($category_movie->description,0,700);
+                                    echo $description.'...'
+                                 @endphp
+                                 @else
+                                 {{$category_movie->description}}
+                              @endif
+                           </div>
                            <div style="float: left;">
                               <span class="user-rate-image post-large-rate stars-large-vang" style="display: block;/* width: 100%; */">
                               <span style="width: 0%"></span>

@@ -1,14 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+{{-- <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card-header">Quản Lí Thể Loại</div>
-            <a href="{{route('genre.create')}}">
-                     Thêm Thể Loại
-             </a>
-<div class="container table-responsive py-5">
+        <div class="col-md-8"> --}}
+{{-- <div class="container table-responsive py-5"> --}}
     <table class="table table-bordered table-hover" id="tableMovie">
       <thead class="thead-dark">
         <tr>
@@ -44,9 +40,9 @@
         @endforeach
       </tbody>
     </table>
-    </div>
+    {{-- </div> --}}
 
-        </div>
+        {{-- </div>
     </div>
-</div>
+</div> --}}
 @endsection

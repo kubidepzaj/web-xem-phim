@@ -9,6 +9,8 @@ use App\Http\Controllers\CountryController;
 use App\Http\Controllers\EpisodeController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\GenreController;
+use App\Http\Controllers\InfoController;
+use App\Http\Controllers\LinkController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,12 +27,28 @@ Route::get('/danh-muc/{slug}', [IndexController::class, 'category'])->name('cate
 Route::get('/the-loai/{slug}', [IndexController::class, 'genre'])->name('genre');
 Route::get('/quoc-gia/{slug}', [IndexController::class, 'country'])->name('country');
 Route::get('/phim/{slug}', [IndexController::class, 'movie'])->name('movie');
-Route::get('/xem-phim/{slug}/{tap}', [IndexController::class, 'watch']);
+Route::get('/xem-phim/{slug}/{tap}/{server_active}', [IndexController::class, 'watch']);
 Route::get('/tap-phim', [IndexController::class, 'episode'])->name('tap-phim');
 Route::get('/year/{year}', [IndexController::class, 'year']);
 Route::get('/tags/{tags}', [IndexController::class, 'tags']);
 Route::get('/tim-kiem', [IndexController::class, 'search'])->name('search');
 Route::get('/loc-phim', [IndexController::class, 'loc_phim'])->name('filter');
+
+
+Route::get('/dang-ky', [IndexController::class, 'dang_ky'])->name('dang-ky');
+Route::get('/dang-nhap', [IndexController::class, 'dang_nhap'])->name('dang-nhap');
+Route::get('/dang-xuat', [IndexController::class, 'dang_xuat'])->name('dang-xuat');
+
+Route::post('/bookmark', [IndexController::class, 'bookmark'])->name('bookmark');
+Route::post('/bookmark/delete/{bookmarkId}', [IndexController::class, 'delete_bookmark']);
+Route::post('/bookmark/delete-all', [IndexController::class, 'delete_all_bookmark']);
+
+
+
+Route::post('/register-publisher', [IndexController::class, 'register_publisher'])->name('register-publisher');
+Route::post('/login-publisher', [IndexController::class, 'login_publisher'])->name('login-publisher');
+
+
 
 
 
@@ -45,6 +63,10 @@ Route::resource('genre', GenreController::class);
 Route::resource('movie', MovieController::class);
 Route::resource('episode', EpisodeController::class);
 Route::resource('country', CountryController::class);
+//thong tin website
+Route::resource('info', InfoController::class);
+Route::resource('link', LinkController::class);
+
 
 //tu phim chon ra so tap
 Route::get('select-movie', [EpisodeController::class,'select_movie'])->name('select-movie');

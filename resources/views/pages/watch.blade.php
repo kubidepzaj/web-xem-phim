@@ -36,7 +36,7 @@
                         </div>
                         <div id="report" class="halim-switch"><i class="hl-attention"></i> Report</div>
                         <div class="luotxem"><i class="hl-eye"></i>
-                           <span>1K</span> lượt xem
+                           <span>{{$movie->views}}</span> lượt xem
                         </div>
                         <div class="luotxem">
                            <a class="visible-xs-inline" data-toggle="collapse" href="#moretool" aria-expanded="false" aria-controls="moretool"><i class="hl-forward"></i> Share</a>
@@ -66,39 +66,90 @@
                      <article id="post-37976" class="item-content post-37976"></article>
                   </div>
                   <div class="clearfix"></div>
-                  <div class="text-center">
-                     <div id="halim-ajax-list-server"></div>
-                  </div>
+
                   <div id="halim-list-server">
                      <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active server-1"><a href="#server-0" aria-controls="server-0" role="tab" data-toggle="tab"></i>Chọn tập phim</a></li>
+                        @foreach ($server as $item =>$list_server)
+                        @foreach ($episode_movie as $key=> $sev_movie)
+                           @if ($sev_movie->link==$list_server->id)
+                        <li role="presentation" class="nav-item ">
+                           <a href="#server{{$list_server->id}}" aria-controls="server-{{$list_server->id}}" role="tab" data-toggle="tab" class="nav-link filter-sidebar">
+                              {{$list_server->name}}
+                           </a>
+                        </li>
+                           @endif
+                        @endforeach
+                        @endforeach
                      </ul>
-                     <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active server-1" id="server-0">
+                     <div class="tab-content" id="pills-tabContent">
+                        @foreach ($server as $item =>$list_server)
+                        @foreach ($episode_movie as $key=> $sev_movie)
+                           @if ($sev_movie->link==$list_server->id)
+                        <div role="tabpanel" class="tab-pane fade" id="server{{$sev_movie->link}}">
                            <div class="halim-server">
                               <ul class="halim-list-eps">
-                                 {{-- @foreach($movie->episode as $key =>$sotap) --}}
-                                 @foreach ($episode_sapxep as $item => $sortByEpisode)
-
-                                    <a href="{{url('xem-phim/'.$movie->slug.'/tap-'.$sortByEpisode->episode)}}">
+                                 {{-- @foreach ($episode_sapxep as $item => $sortByEpisode)
+                                    <a href="{{url('xem-phim/'.$movie->slug.'/tap-'.$sortByEpisode->episode.'/server-'.$sortByEpisode->link)}}">
                                        <li class="halim-episode">
-                                             <span class="halim-btn halim-btn-2 {{$tap_phim==$sortByEpisode->episode ? 'active' : ''}} halim-info-1-1 box-shadow"
-                                                data-post-id="37976"
-                                                data-server="1"
-                                                data-episode="1"
-                                                data-position="first"
-                                                data-embed="0"
+                                             <span class="halim-btn halim-btn-2 {{$tap_phim==$sortByEpisode->episode && $server_active=='server-'.$sortByEpisode->link ? 'active' : ''}} halim-info-1-1 box-shadow"
+                                                data-post-id=""
+                                                data-server=""
+                                                data-episode=""
+                                                data-position=""
+                                                data-embed=""
                                                 data-title="Xem phim {{$movie->title}} - Tập {{$sortByEpisode->episode}}  - vietsub + Thuyết Minh"
                                                 data-h1="{{$movie->title}} - tập {{$sortByEpisode->episode}}">Tập {{$sortByEpisode->episode}}
                                              </span>
                                        </li>
                                     </a>
+                                 @endforeach --}}
 
+                                 {{-- tap phim --}}
+                                 @foreach ($episode_list as $key=>$epi_list)
+                                    @if ($epi_list->link == $list_server->id)
+                                    <a href="{{url('xem-phim/'.$movie->slug.'/tap-'.$epi_list->episode.'/server-'.$epi_list->link)}}">
+                                       <li class="halim-episode">
+                                             <span class="halim-btn halim-btn-2 {{$tap_phim==$epi_list->episode && $server_active=='server-'.$list_server->id ? 'active' : ''}} halim-info-1-1 box-shadow"
+                                                data-post-id=""
+                                                data-server=""
+                                                data-episode=""
+                                                data-position=""
+                                                data-embed=""
+                                                data-title="Xem phim {{$movie->title}} - Tập {{$epi_list->episode}}  - vietsub + Thuyết Minh"
+                                                data-h1="{{$movie->title}} - tập {{$epi_list->episode}}">Tập {{$epi_list->episode}}
+                                             </span>
+                                       </li>
+                                    </a>
+                                 {{-- end tap phim --}}
+                                 @endif
                                  @endforeach
                               </ul>
-                              <div class="clearfix"></div>
                            </div>
                         </div>
+                        @endif
+                        @endforeach
+                        @endforeach
+                        {{-- <div role="tabpanel" class="tab-pane fade" id="server1">
+                           <div class="halim-server">
+                              <ul class="halim-list-eps">
+                                 xxx
+                              </ul>
+                           </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="server6">
+                           <div class="halim-server">
+                              <ul class="halim-list-eps">
+                                 xxxvv
+                              </ul>
+                           </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="server9">
+                           <div class="halim-server">
+                              <ul class="halim-list-eps">
+                                 xxxss
+                              </ul>
+                           </div>
+                        </div> --}}
                      </div>
                   </div>
                   <div class="clearfix"></div>
@@ -137,7 +188,7 @@
                               <div class="halim-post-title-box">
                                  <div class="halim-post-title ">
                                     <p class="entry-title">{{$related_movie->title}}</p>
-                                    <p class="original_title">Monkey King: The One And Only</p>
+                                    <p class="original_title">{{$related_movie->eng_name}}</p>
                                  </div>
                               </div>
                            </a>
